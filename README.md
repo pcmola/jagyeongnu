@@ -11,8 +11,6 @@ Jagyeongnu, Self-Striking Clock
 ## Movie
 [YouTube - Jagyeongnu 2017](https://youtu.be/BoXMbwAWeeA)
 
-
 [YouTube - Jagyeongnu 2016(1) - TimeZone Chnage, Action Change](https://youtu.be/yVyGw9mPAY8)
-
 
 [YouTube - Jagyeongnu 2016(2) - Alarm](https://youtu.be/W1wqKKHjGeI)
