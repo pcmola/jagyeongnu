@@ -16,5 +16,3 @@ Jagyeongnu, Self-Striking Clock
 [YouTube - Jagyeongnu 2016(2) - Alarm](https://youtu.be/W1wqKKHjGeI)
 
 
-Link: [Google][googlelink]
-[googlelink]: https://google.com "Go google"
