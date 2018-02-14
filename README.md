@@ -1,5 +1,5 @@
 # Jagyeongnu
-Jagyeongnu, Self-Striking Clock
+Self-Striking Clock
 
 #
 ## Description
