@@ -40,7 +40,8 @@ div {
 }
 
 .color_yellow {
-    color:#FFD90A;
+    /*color:#FFD90A;*/
+	color:#F7BA30;
 }
 
 
@@ -85,6 +86,17 @@ ul li {  display:inline; font-size:9em; font-family:'DSDIGI', Arial, Helvetica, 
 0% {opacity:1.0; text-shadow:0 0 10px; color:#00ff00;}
 50% {opacity:0; text-shadow:none; }
 100% {opacity:1.0; text-shadow:0 0 10px; color:#00ff00; }   
+}
+
+
+@-webkit-keyframes mymove_m2 
+{
+100% {opacity:1.0; text-shadow:0 0 10px; color:#FFD90A; }   
+}
+
+@keyframes mymove_m2 
+{
+100% {opacity:1.0; text-shadow:0 0 10px; color:#FFD90A; }   
 }
 
 button {
@@ -165,7 +177,7 @@ button#jing {
     ul li {font-size:8em}
     .alarm_on  { width:70px; height:70px }
     .alarm_off  { width:70px; height:70px }
-    .alarm_config { width:70px; height:70px }
+	.alarm_config { width:70px; height:70px }
     padding:0px
 
 }
