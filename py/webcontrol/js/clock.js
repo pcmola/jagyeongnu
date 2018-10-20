@@ -1,5 +1,5 @@
 var GPIO_ARRAY = [22, 23, 24, 25];
-var SERVER_IP = "192.168.0.8";
+var SERVER_IP = "192.168.0.11";
 webiopi().ready(function() {
     /*
     GPIO PIN 세 개(22~24) ON/OFF에 따라 표시할 지역 결정
@@ -27,7 +27,8 @@ webiopi().ready(function() {
     button = webiopi().createMacroButton("jing", "", "jing_strike");
     content.append(button);
     
-    var alarm_onoff = $('<img onclick="changeAlarmFlag()" />');
+   /* 
+	var alarm_onoff = $('<img onclick="changeAlarmFlag()" />');
     alarm_onoff.appendTo($("#alarm_onoff"));  
 
     //Get alarm flag and set the alarm image
@@ -37,9 +38,14 @@ webiopi().ready(function() {
         changeAlarmFlag();
     });
     
-    var alarm_config = $('<img class="alarm_config" onclick="moveConfig()" />');
+    var alarm_config = $('<img />');
     alarm_config.appendTo($("#alarm_config"));    
-   
+    $("#alarm_config").addClass("alarm_config");
+    $("#alarm_config").click(function(){
+        location.href='../clock/config.html';
+    });
+   */
+
     customizeForDevice();
 
     
@@ -50,6 +56,7 @@ webiopi().ready(function() {
     var OFFSET_PARIS   =  -7;
     var OFFSET_SYDNEY  =   1;    
 
+	unactivateCityAll();
     activateCity("seoul");
  
     $("#seoul_bg").click(function(){
@@ -156,7 +163,10 @@ webiopi().ready(function() {
     },1000);
     
     //Run Alarm
-    setInterval(function() {
+	//여기서 알람 실행하면 안 됨.
+	//브라우저 꺼지면 알람이 실행 안 되므로.
+    /*
+	setInterval(function() {
         url= "http://" + SERVER_IP + ":8000/macros/runAlarm/"; // url to the pi -> http is required          
         jQuery.ajax({                          
             url: url,                        
@@ -166,7 +176,8 @@ webiopi().ready(function() {
             error :function() {       
             },
         })
-    },10000);
+    },6000);
+	*/
 }); 
 
 
@@ -214,19 +225,19 @@ function resetHours(hours, offset) {
 function activateCity(city) {
     $("#"+city+"_city").css({"color": "#202020"});
     $("#"+city+"_bg").css({"background": "#BBBBBB"});
-    $("#"+city+"_hours1").css({"color": "#008F2E"});
-    $("#"+city+"_hours2").css({"color": "#2060B4"});
-    $("#"+city+"_min1").css({"color": "#C10000"});
-    $("#"+city+"_min2").css({"color": "#FFD90A"});
+    $("#"+city+"_hours1").css({"opacity":"1.0", "text-shadow":"0 0 3px", "color":"#008F2E"});
+    $("#"+city+"_hours2").css({"opacity":"1.0", "text-shadow":"0 0 3px", "color":"#2060B4"});
+    $("#"+city+"_min1").css({"opacity":"1.0", "text-shadow":"0 0 3px", "color":"#C10000"});
+	$("#"+city+"_min2").css({"opacity":"1.0", "text-shadow":"0 0 3px", "color":"#FFD90A" });
 }
 
 function unactivateCity(city) {
     $("#"+city+"_city").css({"color": "#bbbbbb"});
     $("#"+city+"_bg").css({"background": "#202020"});
-    $("#"+city+"_hours1").css({"color": "#bbbbbb"});
-    $("#"+city+"_hours2").css({"color": "#bbbbbb"});
-    $("#"+city+"_min1").css({"color": "#bbbbbb"});
-    $("#"+city+"_min2").css({"color": "#bbbbbb"});
+    $("#"+city+"_hours1").css({"opacity":"1.0", "text-shadow":"0 0 3px", "color": "#bbbbbb"});
+    $("#"+city+"_hours2").css({"opacity":"1.0", "text-shadow":"0 0 3px", "color": "#bbbbbb"});
+    $("#"+city+"_min1").css({"opacity":"1.0", "text-shadow":"0 0 3px", "color": "#bbbbbb"});
+    $("#"+city+"_min2").css({"opacity":"1.0", "text-shadow":"0 0 3px", "color": "#bbbbbb"});
 }
 
 function unactivateCityAll() {
@@ -263,9 +274,9 @@ var customizeForDevice = function(){
         $(".alarm_config").css({"width":"55px", "height":"55px"});
     }     
 }
-
+/*
 function getAlarmFlag() {
-    alarm_flag_url= "http://" + SERVER_IP + ":8000/macros/getAlarmFlag/"; // url to the pi -> http is required          
+    alarm_flag_url= "http://" + SERVER_IP + ":8000/macros/getAlarmFlag/";           
     jQuery.ajax({                          
         url: alarm_flag_url,                        
         type: 'POST',
@@ -321,7 +332,4 @@ function setAlarmFlag(alarm_flag) {
         },
     })
 }  
-
-function moveConfig() {
-    location.href='../clock/config.html';
-}
+*/
