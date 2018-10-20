@@ -5,6 +5,8 @@
 /home/pi/c/start_music.sh
 
 #alarm start
-/home/pi/py/start_alarm.sh
+#can't operate alarm&web control simultaneouly
+#/home/pi/py/start_alarm.sh
+
 
 
