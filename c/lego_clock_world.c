@@ -16,13 +16,15 @@
 #define CITY2 4  // BCM GPIO 23
 #define CITY3 5  // BCM GPIO 24
 
-#define GREEN_VCC 10 // BCM GPIO 8
-#define GREEN_GND 11 // BCM GPIO 7
+#define GREEN_VCC 7  // BCM GPIO 4
+#define COLON_VCC 11 // BCM GPIO 7
 
 #define ON_OFF  6  // BCM GPIO 25
 
-#define INTERVAL_GREEN  500 // us
-#define INTERVAL_COMMON  500 // us
+#define INTERVAL_BLUE   100 // us
+#define INTERVAL_RED    800 // us
+#define INTERVAL_YELLOW 300 // us
+#define INTERVAL_COMMON  10 // us
 
 #define SEOUL   0
 #define NEWYORK 1
@@ -46,11 +48,11 @@ LED     H1 H2 M1 M2 CO          0  1  2  3  4  5  6  7  8  9  10 11 12    H1' CO
 */
 
 unsigned char common[5] = {
-    0b01111111, // IC1 : 시간의 10의 자리
+    0b01111111, // IC1 : 시간의 10의 자리 // 사용하지 않음.
     0b10111111, // IC1 : 시간의  1의 자리
     0b11011111, // IC1 :   분의 10의 자리
     0b11101111, // IC1 :   분의  1의 자리
-    0b11110111  // IC1 : 시간과 분 사이 콜론
+    0b11110111  // IC1 : 시간과 분 사이 콜론 // 사용하지 않음.
     };
 
 /*
@@ -111,7 +113,7 @@ void Latch();
 void LED_out(unsigned char no);
 void INThandler(int);
 void init();
-
+void dynamic_init();
 
 // Main Function
 int main() {
@@ -138,14 +140,14 @@ int main() {
     pinMode(CITY2,  OUTPUT);
     pinMode(CITY3,  OUTPUT);
     pinMode(ON_OFF, OUTPUT);
-	pinMode(GREEN_VCC, OUTPUT);
-	pinMode(GREEN_GND, OUTPUT);
+    pinMode(GREEN_VCC, OUTPUT);
+    pinMode(COLON_VCC, OUTPUT);
     pullUpDnControl(CITY1,  PUD_DOWN);
     pullUpDnControl(CITY2,  PUD_DOWN);
     pullUpDnControl(CITY3,  PUD_DOWN);
     pullUpDnControl(ON_OFF, PUD_DOWN);
     pullUpDnControl(GREEN_VCC, PUD_DOWN);
-	pullUpDnControl(GREEN_GND, PUD_DOWN);
+    pullUpDnControl(COLON_VCC, PUD_DOWN);
 
     digitalWrite(ON_OFF, 1);
     while(1) {
@@ -215,28 +217,35 @@ int main() {
                 strFormat[1] = tmp_str[0];
             }
 
-            //printf("hour :%s\n", strFormat);
-            //sleep(1);
-
+            //시간의 10의 자리 표시
             if(strFormat[0] == '1') {
-				//LED_out(0);
-                //usleep(INTERVAL_GREEN);
-				digitalWrite(GREEN_VCC, HIGH);
+                digitalWrite(GREEN_VCC, HIGH);
             } else {
-				digitalWrite(GREEN_VCC, LOW);
-			}
+                digitalWrite(GREEN_VCC, LOW);
+            }
 
+            //시간 1의 자리 표시
             LED_out(1);
-            usleep(INTERVAL_COMMON);
-
+            usleep(INTERVAL_BLUE);
+            dynamic_init();
+            
+            // 분 10의 자리 표시
             LED_out(2);
-            usleep(INTERVAL_COMMON);
-
+            usleep(INTERVAL_RED);
+            dynamic_init();
+            
+            // 분 1의 자리 표시
             LED_out(3);
-            usleep(INTERVAL_COMMON);
-
-            LED_out(4);
-            usleep(INTERVAL_GREEN);
+            usleep(INTERVAL_YELLOW);
+            dynamic_init();
+            
+            // Colon
+            if( strFormat[5] % 2 == 0) {
+                digitalWrite(COLON_VCC, HIGH);
+            } else {
+                digitalWrite(COLON_VCC, LOW);
+            }
+     
         } else {
             init();
         }
@@ -253,40 +262,10 @@ void LED_out(unsigned char no) {
 
     // 시간의 1자리, 분의 10자리, 분의 1자리
     if(no == 1 || no == 2 || no == 3) {
-
         shiftOut(DS, SHCP, LSBFIRST, digit2[digitNum]);
         shiftOut(DS, SHCP, LSBFIRST, digit1[digitNum]);
         shiftOut(DS, SHCP, LSBFIRST, common[no]);
-
         Latch();
-    }
-
-    // 시간의 10의 자리
-	/*
-    if(no == 0) {
-        if(digitNum == 1) {
-            shiftOut(DS, SHCP, LSBFIRST, 0b00000010);
-        } else {
-            shiftOut(DS, SHCP, LSBFIRST, 0b00000000);
-        }
-        shiftOut(DS, SHCP, LSBFIRST, 0b00000000);
-        shiftOut(DS, SHCP, LSBFIRST, common[no]);
-        Latch();
-    }
-	*/
-
-    // Colon
-    if(no == 4) {
-        //if( strFormat[3] % 2 == 0) {  // [분:초] 테스트 시
-        if( strFormat[5] % 2 == 0) {
-            shiftOut(DS, SHCP, LSBFIRST, 0b00000001);
-        } else {
-            shiftOut(DS, SHCP, LSBFIRST, 0b00000000);
-        }
-        shiftOut(DS, SHCP, LSBFIRST, 0b00000000);
-        shiftOut(DS, SHCP, LSBFIRST, common[no]);
-        Latch();
-
     }
 }
 
@@ -298,7 +277,12 @@ void INThandler(int sig)
 }
 
 void init() {
-    int i;
+    digitalWrite(GREEN_VCC, LOW);
+    digitalWrite(COLON_VCC, LOW);
+    dynamic_init();
+}
+
+void dynamic_init() {
     shiftOut(DS, SHCP, LSBFIRST, 0x00);  // digit2
     shiftOut(DS, SHCP, LSBFIRST, 0x00);  // digit1
     shiftOut(DS, SHCP, LSBFIRST, 0xFF);  // common
