@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <wiringPi.h>
-#define JONG_PIN 13
+//#define JONG_PIN 13
+#define JONG_PIN 19
 
 int main(void)
 {
@@ -15,7 +16,7 @@ int main(void)
     while(1) {
         if (digitalRead (JONG_PIN) == HIGH) {
             printf("Jong, strike!!\n");
-            system("omxplayer jong.mp3");
+            system("omxplayer /home/pi/c/jong.mp3");
         }
         usleep(1000);
     }
