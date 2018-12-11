@@ -9,4 +9,8 @@
 #alarm stop
 /home/pi/py/stop_alarm.sh
 
+#time_change stop
+/home/pi/c/stop_time_change.sh
+
+
 
