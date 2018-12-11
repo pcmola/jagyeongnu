@@ -16,15 +16,12 @@
 #define CITY2 4  // BCM GPIO 23
 #define CITY3 5  // BCM GPIO 24
 
-#define GREEN_VCC 7  // BCM GPIO 4
+#define GREEN_VCC 8  // BCM GPIO 2
 #define COLON_VCC 11 // BCM GPIO 7
 
-#define ON_OFF  6  // BCM GPIO 25
-
 #define INTERVAL_BLUE   100 // us
-#define INTERVAL_RED    800 // us
-#define INTERVAL_YELLOW 300 // us
-#define INTERVAL_COMMON  10 // us
+#define INTERVAL_RED    900 // us
+#define INTERVAL_YELLOW 600 // us
 
 #define SEOUL   0
 #define NEWYORK 1
@@ -48,11 +45,11 @@ LED     H1 H2 M1 M2 CO          0  1  2  3  4  5  6  7  8  9  10 11 12    H1' CO
 */
 
 unsigned char common[5] = {
-    0b01111111, // IC1 : 시간의 10의 자리 // 사용하지 않음.
+    0b01111111, // IC1 : 시간의 10의 자리 // 사용하지 않음(녹색이 너무 어두워서 릴레이 사용함).
     0b10111111, // IC1 : 시간의  1의 자리
     0b11011111, // IC1 :   분의 10의 자리
     0b11101111, // IC1 :   분의  1의 자리
-    0b11110111  // IC1 : 시간과 분 사이 콜론 // 사용하지 않음.
+    0b11110111  // IC1 : 시간과 분 사이 콜론 // 사용하지 않음(녹색이 너무 어두워서 다른 핀으로 제어함).
     };
 
 /*
@@ -136,118 +133,110 @@ int main() {
         pullUpDnControl(PIN[i], PUD_DOWN);
     }
 
-    pinMode(CITY1,  OUTPUT);
-    pinMode(CITY2,  OUTPUT);
-    pinMode(CITY3,  OUTPUT);
-    pinMode(ON_OFF, OUTPUT);
-    pinMode(GREEN_VCC, OUTPUT);
-    pinMode(COLON_VCC, OUTPUT);
-    pullUpDnControl(CITY1,  PUD_DOWN);
-    pullUpDnControl(CITY2,  PUD_DOWN);
-    pullUpDnControl(CITY3,  PUD_DOWN);
-    pullUpDnControl(ON_OFF, PUD_DOWN);
-    pullUpDnControl(GREEN_VCC, PUD_DOWN);
-    pullUpDnControl(COLON_VCC, PUD_DOWN);
+    pinMode(CITY1,       OUTPUT);
+    pinMode(CITY2,       OUTPUT);
+    pinMode(CITY3,       OUTPUT);
+    pinMode(GREEN_VCC,   OUTPUT);
+    pinMode(COLON_VCC,   OUTPUT);
+    pullUpDnControl(CITY1,       PUD_DOWN);
+    pullUpDnControl(CITY2,       PUD_DOWN);
+    pullUpDnControl(CITY3,       PUD_DOWN);
+    pullUpDnControl(GREEN_VCC,   PUD_DOWN);
+    pullUpDnControl(COLON_VCC,   PUD_DOWN);
 
-    digitalWrite(ON_OFF, 1);
     while(1) {
-        if (digitalRead(ON_OFF) == HIGH) {
+    
+        time(&timer);
 
-            time(&timer);
+        //12시간 형식의 시간[01-12]/분/초
+        strftime(strFormat, 7, "%I%M%S", localtime(&timer));
 
-            //extract hour/minute/second
-            strftime(strFormat, 7, "%I%M%S", localtime(&timer));
+        /*
+        PIN 세 개 ON/OFF에 따라 표시할 지역 결정
+        000 : 서울
+        001 : 뉴욕
+        010 : 베이징
+        011 : 런던
+        100 : 파리
+        101 : 시드니
+        */
+        city = digitalRead(CITY1) << 2 | digitalRead(CITY2) << 1 | digitalRead(CITY3);
 
-            /*
-            PIN 세 개 ON/OFF에 따라 표시할 지역 결정
-            000 : 서울
-            001 : 뉴욕
-            010 : 베이징
-            011 : 런던
-            100 : 파리
-            101 : 시드니
-            */
-            city = digitalRead(CITY1) << 2 | digitalRead(CITY2) << 1 | digitalRead(CITY3);
+        switch(city) {
+            case SEOUL:
+            hour_offset = OFFSET_SEOUL;
+            break;
 
-            switch(city) {
-                case SEOUL:
-                hour_offset = OFFSET_SEOUL;
-                break;
+            case NEWYORK:
+            hour_offset = OFFSET_NEWYORK;
+            break;
 
-                case NEWYORK:
-                hour_offset = OFFSET_NEWYORK;
-                break;
+            case BEIJING:
+            hour_offset = OFFSET_BEIJING;
+            break;
 
-                case BEIJING:
-                hour_offset = OFFSET_BEIJING;
-                break;
+            case LONDON:
+            hour_offset = OFFSET_LONDON;
+            break;
 
-                case LONDON:
-                hour_offset = OFFSET_LONDON;
-                break;
-
-                case PARIS:
-                hour_offset = OFFSET_PARIS;
-                break;
-                
-                case SYDNEY:
-                hour_offset = OFFSET_SYDNEY;
-                break;
-
-            }
-
-            seoul_hour = atoi(strFormat)/10000;
-            if( (seoul_hour+hour_offset) > 12 ) {
-                city_hour = seoul_hour+hour_offset-12;
-            }
-            else if( (seoul_hour+hour_offset) <= 12 && (seoul_hour+hour_offset) > 0 ) {
-                city_hour = seoul_hour+hour_offset;
-            }
-            else if( (seoul_hour+hour_offset) <= 0 ) {
-                city_hour = seoul_hour+hour_offset+12;
-            }
-
-            snprintf (tmp_str, sizeof(tmp_str), "%d", city_hour);
-            if( city_hour >= 10 ) {
-                strFormat[0] = tmp_str[0];
-                strFormat[1] = tmp_str[1];
-            }
-            else {
-                strFormat[0] = '0';
-                strFormat[1] = tmp_str[0];
-            }
-
-            //시간의 10의 자리 표시
-            if(strFormat[0] == '1') {
-                digitalWrite(GREEN_VCC, HIGH);
-            } else {
-                digitalWrite(GREEN_VCC, LOW);
-            }
-
-            //시간 1의 자리 표시
-            LED_out(1);
-            usleep(INTERVAL_BLUE);
-            dynamic_init();
+            case PARIS:
+            hour_offset = OFFSET_PARIS;
+            break;
             
-            // 분 10의 자리 표시
-            LED_out(2);
-            usleep(INTERVAL_RED);
-            dynamic_init();
-            
-            // 분 1의 자리 표시
-            LED_out(3);
-            usleep(INTERVAL_YELLOW);
-            dynamic_init();
-            
-            // Colon
-            if( strFormat[5] % 2 == 0) {
-                digitalWrite(COLON_VCC, HIGH);
-            } else {
-                digitalWrite(COLON_VCC, LOW);
-            }
-     
+            case SYDNEY:
+            hour_offset = OFFSET_SYDNEY;
+            break;
+
+        }
+
+        seoul_hour = atoi(strFormat)/10000;
+        if( (seoul_hour+hour_offset) > 12 ) {
+            city_hour = seoul_hour+hour_offset-12;
+        }
+        else if( (seoul_hour+hour_offset) <= 12 && (seoul_hour+hour_offset) > 0 ) {
+            city_hour = seoul_hour+hour_offset;
+        }
+        else if( (seoul_hour+hour_offset) <= 0 ) {
+            city_hour = seoul_hour+hour_offset+12;
+        }
+
+        snprintf (tmp_str, sizeof(tmp_str), "%d", city_hour);
+        if( city_hour >= 10 ) {
+            strFormat[0] = tmp_str[0];
+            strFormat[1] = tmp_str[1];
+        }
+        else {
+            strFormat[0] = '0';
+            strFormat[1] = tmp_str[0];
+        }
+
+        //시간의 10의 자리 표시
+        if(strFormat[0] == '1') {
+            digitalWrite(GREEN_VCC, HIGH);
         } else {
-            init();
+            digitalWrite(GREEN_VCC, LOW);
+        }
+
+        //시간 1의 자리 표시
+        LED_out(1);
+        usleep(INTERVAL_BLUE);
+        dynamic_init();
+        
+        // 분 10의 자리 표시
+        LED_out(2);
+        usleep(INTERVAL_RED);
+        dynamic_init();
+        
+        // 분 1의 자리 표시
+        LED_out(3);
+        usleep(INTERVAL_YELLOW);
+        dynamic_init();
+        
+        // Colon
+        if(strFormat[5] % 2 == 0) {
+            digitalWrite(COLON_VCC, HIGH);
+        } else {
+            digitalWrite(COLON_VCC, LOW);
         }
     }
 }
