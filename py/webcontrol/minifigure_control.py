@@ -15,7 +15,7 @@ jong_dir_pin = 13
 book_pwm_pin = 16
 book_dir_pin = 12
 jing_pwm_pin = 20
-jing_dir_pin =  6
+jing_dir_pin =  3
 
 def setup():
     webiopi.debug("Script with macros - Setup")
@@ -55,15 +55,15 @@ def jong_strike():
     GPIO.output(jong_dir_pin, GPIO.LOW)
     GPIO.pulseRatio(jong_pwm_pin, 0.01); #delay
     webiopi.sleep(0.60)
-    GPIO.pulseRatio(jong_pwm_pin, 0.18);
-    webiopi.sleep(0.19)
+    GPIO.pulseRatio(jong_pwm_pin, 0.17);
+    webiopi.sleep(0.155)
 
     GPIO.pulseRatio(jong_pwm_pin, 0); #stop   
     webiopi.sleep(0.8)
     
     GPIO.output(jong_dir_pin, GPIO.HIGH)
-    GPIO.pulseRatio(jong_pwm_pin, 0.18);    
-    webiopi.sleep(0.17)
+    GPIO.pulseRatio(jong_pwm_pin, 0.17);    
+    webiopi.sleep(0.15)
     
     GPIO.pulseRatio(jong_pwm_pin, 0);
 
@@ -75,14 +75,14 @@ def book_strike():
     GPIO.pulseRatio(book_pwm_pin, 0.01); #delay
     webiopi.sleep(0.60)
     GPIO.pulseRatio(book_pwm_pin, 0.18);
-    webiopi.sleep(0.19)
+    webiopi.sleep(0.165)
     
     GPIO.pulseRatio(book_pwm_pin, 0); #stop
     webiopi.sleep(0.8)
     
     GPIO.output(book_dir_pin, GPIO.HIGH)
     GPIO.pulseRatio(book_pwm_pin, 0.18);    
-    webiopi.sleep(0.17)
+    webiopi.sleep(0.16)
     
     GPIO.pulseRatio(book_pwm_pin, 0);
     
@@ -95,14 +95,14 @@ def jing_strike():
     GPIO.pulseRatio(jing_pwm_pin, 0.01); #delay
     webiopi.sleep(0.60)
     GPIO.pulseRatio(jing_pwm_pin, 0.17);
-    webiopi.sleep(0.16)
+    webiopi.sleep(0.155)
     
     GPIO.pulseRatio(jing_pwm_pin, 0); #stop
     webiopi.sleep(0.8)
     
     GPIO.output(jing_dir_pin, GPIO.HIGH)
     GPIO.pulseRatio(jing_pwm_pin, 0.17);    
-    webiopi.sleep(0.14)
+    webiopi.sleep(0.15)
     
     GPIO.pulseRatio(jing_pwm_pin, 0);
       
