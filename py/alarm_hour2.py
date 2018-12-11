@@ -4,12 +4,12 @@ import time
 import os
 
 
-jong_pwm_pin = 13
-jong_dir_pin = 19
+jong_pwm_pin = 19
+jong_dir_pin = 13
 book_pwm_pin = 16
 book_dir_pin = 12   
-jing_pwm_pin = 11
-jing_dir_pin =  6
+jing_pwm_pin = 20
+jing_dir_pin =  3
 
 
 GPIO.setwarnings(False)
@@ -92,7 +92,7 @@ hour = int(current_time[0:2])
 while True:
     t = time.localtime()
     current_time = time.strftime(fmt, t)
-    if(current_time[0:2] >= "08" and current_time[0:2] <= "22" and (current_time[3:5] == "00" or current_time[3:5] == "30") and current_time[6:8] <= "50"): 
+    if(current_time[0:2] >= "09" and current_time[0:2] <= "22" and (current_time[3:5] == "00" or current_time[3:5] == "30") and current_time[6:8] <= "50"): 
     #if(current_time[0:2] >= "09" and current_time[0:2] <= "18" and (current_time[3:5] == "00" or current_time[3:5] == "30") and current_time[6:8] <= "50"): 
     #if current_time[6:8] <= "50" :
         if(current_time[6:8] == "00") :
@@ -109,4 +109,5 @@ while True:
     
     
     
- 
+    
+    
