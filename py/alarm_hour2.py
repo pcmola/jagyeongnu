@@ -33,14 +33,14 @@ def jong_strike():
     GPIO.output(jong_dir_pin, False)
     jong_pwm_motor.ChangeDutyCycle(10) #go(delay)
     time.sleep(0.7) 
-    jong_pwm_motor.ChangeDutyCycle(39) #go
-    time.sleep(0.15) 
+    jong_pwm_motor.ChangeDutyCycle(34) #go
+    time.sleep(0.13) 
     jong_pwm_motor.ChangeDutyCycle(0)  #stop
     time.sleep(1) 
 
     GPIO.output(jong_dir_pin, True)
-    jong_pwm_motor.ChangeDutyCycle(39) #go(delay)
-    time.sleep(0.14) 
+    jong_pwm_motor.ChangeDutyCycle(34) #go(delay)
+    time.sleep(0.12) 
 
     jong_pwm_motor.ChangeDutyCycle(0)  #stop
     time.sleep(1) 
@@ -51,14 +51,14 @@ def book_strike():
     GPIO.output(book_dir_pin, False)
     book_pwm_motor.ChangeDutyCycle(10) #go(delay)
     time.sleep(0.7) 
-    book_pwm_motor.ChangeDutyCycle(37) #go
-    time.sleep(0.15) 
+    book_pwm_motor.ChangeDutyCycle(34) #go
+    time.sleep(0.13) 
     book_pwm_motor.ChangeDutyCycle(0)  #stop
     time.sleep(1) 
 
     GPIO.output(book_dir_pin, True)
-    book_pwm_motor.ChangeDutyCycle(37) #go
-    time.sleep(0.13) 
+    book_pwm_motor.ChangeDutyCycle(34) #go
+    time.sleep(0.12) 
 
     book_pwm_motor.ChangeDutyCycle(0)  #stop
     time.sleep(1) 
@@ -70,7 +70,7 @@ def jing_strike():
     jing_pwm_motor.ChangeDutyCycle(10) #go(delay)
     time.sleep(0.7) 
     jing_pwm_motor.ChangeDutyCycle(34) #go
-    time.sleep(0.14) 
+    time.sleep(0.13) 
     jing_pwm_motor.ChangeDutyCycle(0)  #stop
     time.sleep(1) 
 
@@ -92,9 +92,12 @@ hour = int(current_time[0:2])
 while True:
     t = time.localtime()
     current_time = time.strftime(fmt, t)
-    if(current_time[0:2] >= "09" and current_time[0:2] <= "22" and (current_time[3:5] == "00" or current_time[3:5] == "30") and current_time[6:8] <= "50"): 
+    #if(current_time[0:2] >= "09" and current_time[0:2] <= "22" and (current_time[3:5] == "00" or current_time[3:5] == "30") and current_time[6:8] <= "50"): 
     #if(current_time[0:2] >= "09" and current_time[0:2] <= "18" and (current_time[3:5] == "00" or current_time[3:5] == "30") and current_time[6:8] <= "50"): 
     #if current_time[6:8] <= "50" :
+    if(current_time[0:2] >= "09" and current_time[0:2] <= "22" and 
+    (current_time[3:5] == "00" or current_time[3:5] == "10" or current_time[3:5] == "20" or current_time[3:5] == "30" or current_time[3:5] == "40" or current_time[3:5] == "50") and 
+    current_time[6:8] <= "55"):
         if(current_time[6:8] == "00") :
             os.system("sudo /home/pi/hub-ctrl -h 0 -P 2 -p 0")
             time.sleep(1)
@@ -106,8 +109,4 @@ while True:
     time.sleep(1)
     print ("{}".format(current_time))
 
-    
-    
-    
-    
     
