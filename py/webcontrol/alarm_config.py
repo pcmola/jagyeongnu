@@ -5,7 +5,7 @@ webiopi.setDebug()
 @webiopi.macro
 def getAlarmTime():
 
-    alarm_time_file = '/home/pi/py/webcontrol/files/alarm_time.txt'
+    alarm_time_file = '/home/pi/jagyeongnu/py/webcontrol/files/alarm_time.txt'
     try:
         f = open(alarm_time_file, 'r')
         alarm_time = f.read()
@@ -20,7 +20,7 @@ def getAlarmTime():
 def setAlarmTime(alarm_time):
     webiopi.debug("Alarm is set to " + alarm_time)
 
-    alarm_time_file = '/home/pi/py/webcontrol/files/alarm_time.txt'
+    alarm_time_file = '/home/pi/jagyeongnu/py/webcontrol/files/alarm_time.txt'
     try:
         f = open(alarm_time_file, 'w')
         f.write(alarm_time + "\n")
@@ -32,7 +32,7 @@ def setAlarmTime(alarm_time):
         
 @webiopi.macro
 def getAlarmFlag():
-    alarm_flag_file = '/home/pi/py/webcontrol/files/alarm_flag.txt'
+    alarm_flag_file = '/home/pi/jagyeongnu/py/webcontrol/files/alarm_flag.txt'
     try:
         fin_flag = open(alarm_flag_file, 'r')
         alarm_flag = fin_flag.read()
@@ -47,7 +47,7 @@ def getAlarmFlag():
 @webiopi.macro
 def setAlarmFlag(alarm_flag):
     webiopi.debug("Alarm Flag is set to " + alarm_flag)
-    alarm_flag_file = '/home/pi/py/webcontrol/files/alarm_flag.txt'
+    alarm_flag_file = '/home/pi/jagyeongnu/py/webcontrol/files/alarm_flag.txt'
     try:
         fin_flag = open(alarm_flag_file, 'w')
         fin_flag.write(alarm_flag + "\n")

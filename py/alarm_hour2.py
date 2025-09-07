@@ -99,9 +99,9 @@ while True:
     (current_time[3:5] == "00" or current_time[3:5] == "10" or current_time[3:5] == "20" or current_time[3:5] == "30" or current_time[3:5] == "40" or current_time[3:5] == "50") and 
     current_time[6:8] <= "55"):
         if(current_time[6:8] == "00") :
-            os.system("sudo /home/pi/hub-ctrl -h 0 -P 2 -p 0")
+            os.system("sudo /home/pi/jagyeongnu/hub-ctrl -h 0 -P 2 -p 0")
             time.sleep(1)
-            os.system("sudo /home/pi/hub-ctrl -h 0 -P 2 -p 1")
+            os.system("sudo /home/pi/jagyeongnu/hub-ctrl -h 0 -P 2 -p 1")
         print "Strike!"
     	jong_strike()
     	book_strike()

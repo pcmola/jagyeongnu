@@ -16,7 +16,7 @@ int main(void)
     while(1) {
         if (digitalRead (JING_PIN) == HIGH) {
             printf("Jing, strike!!\n");
-            system("omxplayer /home/pi/c/jing.mp3");
+            system("omxplayer /home/pi/jagyeongnu/c/jing.mp3");
         }
         usleep(1000);
     }

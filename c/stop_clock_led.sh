@@ -5,5 +5,5 @@ PROCESS=`ps -ef|grep $PGM_NAME|grep -v grep|grep -v vi|awk '{print $2}'`
 if [ $Cnt -gt 0 ] ; then
     sudo kill -9 $PROCESS
 fi
-sudo /home/pi/c/lego_clock_init
+sudo /home/pi/jagyeongnu/c/lego_clock_init
 

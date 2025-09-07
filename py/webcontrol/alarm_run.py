@@ -3,14 +3,14 @@ import time
 from time import sleep
 
 import sys
-sys.path.append('/home/pi/py/webcontrol')
+sys.path.append('/home/pi/jagyeongnu/py/webcontrol')
 import minifigure_control
 
 webiopi.setDebug()
 
 @webiopi.macro
 def runAlarm():
-    alarm_time_file = '/home/pi/py/webcontrol/files/alarm_time.txt'
+    alarm_time_file = '/home/pi/jagyeongnu/py/webcontrol/files/alarm_time.txt'
     try:
         fin_time = open(alarm_time_file, 'r')
         alarm_time = fin_time.read()
@@ -19,7 +19,7 @@ def runAlarm():
         webiopi.debug("Cannot find file: " + alarm_time_file)
         webiopi.debug("file read error")   
         
-    alarm_flag_file = '/home/pi/py/webcontrol/files/alarm_flag.txt'
+    alarm_flag_file = '/home/pi/jagyeongnu/py/webcontrol/files/alarm_flag.txt'
     try:
         fin_flag = open(alarm_flag_file, 'r')
         alarm_flag = fin_flag.read()

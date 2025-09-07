@@ -2,7 +2,7 @@
 import webiopi
 
 #import sys
-#sys.path.append('/home/pi/py/python-omxplayer-wrapper-develop')
+#sys.path.append('/home/pi/jagyeongnu/py/python-omxplayer-wrapper-develop')
 #sys.path.append('/usr/local/lib/python2.7/dist-packages/decorator-4.0.10-py2.7.egg')
 #from omxplayer import OMXPlayer
 
