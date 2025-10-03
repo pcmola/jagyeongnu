@@ -52,58 +52,81 @@ def destroy():
 @webiopi.macro
 def jong_strike():
     webiopi.debug("Jong Strike!!!")
-    GPIO.output(jong_dir_pin, GPIO.LOW)
-    GPIO.pulseRatio(jong_pwm_pin, 0.01); #delay
-    webiopi.sleep(0.60)
-    GPIO.pulseRatio(jong_pwm_pin, 0.17);
-    webiopi.sleep(0.155)
 
-    GPIO.pulseRatio(jong_pwm_pin, 0); #stop   
+    # Forward
+    GPIO.output(jong_dir_pin, GPIO.LOW)
+    GPIO.pulseRatio(jong_pwm_pin, 0.001)  # kick
+    webiopi.sleep(0.55)
+    GPIO.pulseRatio(jong_pwm_pin, 0.20)  # mid
+    webiopi.sleep(0.10)
+    GPIO.pulseRatio(jong_pwm_pin, 0.10)  # run
+    webiopi.sleep(0.12)
+    GPIO.pulseRatio(jong_pwm_pin, 0.00)  # stop   
     webiopi.sleep(0.8)
     
+    # Reverse
     GPIO.output(jong_dir_pin, GPIO.HIGH)
-    GPIO.pulseRatio(jong_pwm_pin, 0.17);    
-    webiopi.sleep(0.15)
-    
-    GPIO.pulseRatio(jong_pwm_pin, 0);
+    GPIO.pulseRatio(jong_pwm_pin, 0.01)  # kick 
+    webiopi.sleep(0.01)
+    GPIO.pulseRatio(jong_pwm_pin, 0.20)  # mid  
+    webiopi.sleep(0.10)
+    GPIO.pulseRatio(jong_pwm_pin, 0.10)  # run  
+    webiopi.sleep(0.10)    
+    GPIO.pulseRatio(jong_pwm_pin, 0.00)  # final stop
+    webiopi.sleep(0.5)
 
     
-@webiopi.macro 
+@webiopi.macro
 def book_strike():
     webiopi.debug("Book Strike!!!")
+    
+    # Forward
     GPIO.output(book_dir_pin, GPIO.LOW)
-    GPIO.pulseRatio(book_pwm_pin, 0.01); #delay
-    webiopi.sleep(0.60)
-    GPIO.pulseRatio(book_pwm_pin, 0.18);
-    webiopi.sleep(0.165)
-    
-    GPIO.pulseRatio(book_pwm_pin, 0); #stop
+    GPIO.pulseRatio(book_pwm_pin, 0.001)   # kick
+    webiopi.sleep(0.55)
+    GPIO.pulseRatio(book_pwm_pin, 0.20)   # mid
+    webiopi.sleep(0.13)
+    GPIO.pulseRatio(book_pwm_pin, 0.10)   # run
+    webiopi.sleep(0.12)
+    GPIO.pulseRatio(book_pwm_pin, 0.00)   # stop
     webiopi.sleep(0.8)
-    
+
+    # Reverse
     GPIO.output(book_dir_pin, GPIO.HIGH)
-    GPIO.pulseRatio(book_pwm_pin, 0.18);    
-    webiopi.sleep(0.16)
-    
-    GPIO.pulseRatio(book_pwm_pin, 0);
-    
+    GPIO.pulseRatio(book_pwm_pin, 0.01)   # kick
+    webiopi.sleep(0.01)
+    GPIO.pulseRatio(book_pwm_pin, 0.20)   # mid
+    webiopi.sleep(0.10)
+    GPIO.pulseRatio(book_pwm_pin, 0.10)   # run
+    webiopi.sleep(0.12)
+    GPIO.pulseRatio(book_pwm_pin, 0.00)   # final stop
+    webiopi.sleep(0.5)
+
     
             
 @webiopi.macro
 def jing_strike():
     webiopi.debug("Jing Strike!!!")
+
+    # Forward
     GPIO.output(jing_dir_pin, GPIO.LOW)
-    GPIO.pulseRatio(jing_pwm_pin, 0.01); #delay
-    webiopi.sleep(0.60)
-    GPIO.pulseRatio(jing_pwm_pin, 0.17);
-    webiopi.sleep(0.155)
-    
-    GPIO.pulseRatio(jing_pwm_pin, 0); #stop
+    GPIO.pulseRatio(jing_pwm_pin, 0.001)  # kick
+    webiopi.sleep(0.55)
+    GPIO.pulseRatio(jing_pwm_pin, 0.20)  # mid 
+    webiopi.sleep(0.11)
+    GPIO.pulseRatio(jing_pwm_pin, 0.10)  # run 
+    webiopi.sleep(0.12)
+    GPIO.pulseRatio(jing_pwm_pin, 0.00)  # stop
     webiopi.sleep(0.8)
     
+    # Reverse
     GPIO.output(jing_dir_pin, GPIO.HIGH)
-    GPIO.pulseRatio(jing_pwm_pin, 0.17);    
-    webiopi.sleep(0.15)
-    
-    GPIO.pulseRatio(jing_pwm_pin, 0);
+    GPIO.pulseRatio(jing_pwm_pin, 0.01)  # kick   
+    webiopi.sleep(0.01)    
+    GPIO.pulseRatio(jing_pwm_pin, 0.25)  # mid   
+    webiopi.sleep(0.11)    
+    GPIO.pulseRatio(jing_pwm_pin, 0.10)  # stop   
+    webiopi.sleep(0.12)    
+    GPIO.pulseRatio(jing_pwm_pin, 0.00)  # final stop
       
     

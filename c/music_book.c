@@ -15,7 +15,7 @@ int main(void)
     while(1) {
         if (digitalRead (BOOK_PIN) == HIGH) {
             printf("Book, strike!!\n");
-            system("omxplayer book.mp3");
+            system("omxplayer /home/pi/jagyeongnu/c/book.mp3");
         }
         usleep(1000);
     }

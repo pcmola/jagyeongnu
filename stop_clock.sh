@@ -7,10 +7,10 @@
 /home/pi/jagyeongnu/c/stop_music.sh
 
 #alarm stop
-/home/pi/jagyeongnu/py/stop_alarm.sh
+#/home/pi/jagyeongnu/py/stop_alarm.sh
 
 #time_change stop
-/home/pi/jagyeongnu/c/stop_time_change.sh
+#/home/pi/jagyeongnu/c/stop_time_change.sh
 
 
 

@@ -6,6 +6,7 @@
 #include <string.h>
 #include <signal.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 // PIN 정보 : http://wiringpi.com/pins/ 참고
 #define DS      PIN[0]  // BCM GPIO 17

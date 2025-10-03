@@ -1,3 +1,6 @@
+#reset_gpio
+/home/pi/jagyeongnu/c/reset_gpio.sh
+
 #led start
 /home/pi/jagyeongnu/c/start_clock_led.sh
 
@@ -5,7 +8,7 @@
 /home/pi/jagyeongnu/c/start_music.sh
 
 #time_change start
-/home/pi/jagyeongnu/c/start_time_change.sh
+#/home/pi/jagyeongnu/c/start_time_change.sh
 
 #alarm start
 #can't operate alarm&web control simultaneouly
